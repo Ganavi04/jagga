@@ -1,0 +1,34 @@
+pipeline {
+         agent any
+         environment{
+           MY_FILE = fileExists 'jagga'
+         }
+stages {
+     stage('clone repo'){
+
+    when { expression { MY_FILE == 'false' } }
+    steps {
+          bat "git clone "
+          print "pulled the code"
+    }
+}
+   stage('compile') {
+  steps {
+      bat "cd jagga"
+      bat "mvn compile"
+    }
+}
+    stage('test')
+{
+   steps {
+   bat "mvn test"
+}
+}
+   stage('package')
+{
+  steps {
+  bat "mvn package"
+}
+}
+}
+}
